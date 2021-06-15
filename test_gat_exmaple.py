@@ -30,6 +30,7 @@ gat_model = GAT(citeSeer_ds.num_features,
 # --- Setting
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 gat_model.to(device)
+citeseer = citeseer.to(device)
 optimizer = torch.optim.Adam(gat_model.parameters(), lr = 0.005, weight_decay = 5e-4)
 criterion = F.nll_loss
 

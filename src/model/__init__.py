@@ -1,1 +1,1 @@
-from .GAT import GAT
+from .GAT import GAT, GAT_pl

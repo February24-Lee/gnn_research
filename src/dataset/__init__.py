@@ -1,1 +1,2 @@
-from .CiteSeer import citeSeer
+from .CiteSeer import citeSeer, citeSeer_pl
+

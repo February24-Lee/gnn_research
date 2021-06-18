@@ -1,9 +1,9 @@
 from typing import List
-from torch import optim
-from torch.optim.optimizer import Optimizer
-from torch_geometric.data.data import Data
-from src.dataset import citeSeer
-from src.model import GAT
+from torch  import optim
+from torch.optim.optimizer      import Optimizer
+from torch_geometric.data.data  import Data
+from src.dataset    import citeSeer
+from src.model      import GAT
 
 import torch
 import torch.nn.functional as F
@@ -51,7 +51,7 @@ def test(data : Dataset) -> dict:
     out= gat_model(data.x, data.edge_index)
     acc_dic = {}
     for name, mask in data('train_mask', 'test_mask', 'val_mask'):
-        acc = float((out[mask].argmax(-1) == data.y[mask])).sum() / mask.sum()
+        acc = float((out[mask].argmax(-1) == data.y[mask]).sum() / mask.sum())
         acc_dic[name[:-5]] = acc
     return acc_dic
 

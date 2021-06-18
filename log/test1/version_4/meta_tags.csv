@@ -1,0 +1,10 @@
+key,value
+input_dim,3703
+num_layers,2
+hidden_dim,[32]
+num_heads,"[1, 1]"
+output_dim,6
+drop_out,0.6
+train_mask,"tensor([ True,  True,  True,  ..., False, False, False])"
+test_mask,"tensor([False, False, False,  ...,  True,  True,  True])"
+val_mask,"tensor([False, False, False,  ..., False, False, False])"

@@ -1,7 +1,5 @@
-from typing import List
+
 from torch import optim
-from torch.optim.optimizer import Optimizer
-from torch_geometric.data.data import Data
 from src.dataset import citeSeer
 from src.model import GAT
 

@@ -49,11 +49,11 @@ def split_train_test_val(label_dataset : torch.Tensor,
     find_idx_fn = lambda x : torch.nonzero(label_dataset == x, as_tuple=True)[0][:each_class_num]
     for class_idx in class_list : 
         idx = find_idx_fn(class_idx)
-        train_idx[idx] == 1
-        test_idx[idx] == 0
+        train_idx[idx] = 1
+        test_idx[idx] = 0
         
     _val_idx = torch.nonzero(train_idx, as_tuple=True)[0][:val_num]
-    train_idx[_val_idx] = 0
+    test_idx[_val_idx] = 0
     val_idx[_val_idx] = 1
     return train_idx.bool(), test_idx.bool(), val_idx.bool()
     

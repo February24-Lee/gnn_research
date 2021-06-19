@@ -1,18 +1,18 @@
-from    torch_geometric.datasets   import Planetoid
+from    torch_geometric.datasets   import Flickr
 import  torch_geometric.transforms as T
+
 from.base import Base_pl_data
 
-def citeSeer(data_path : str = 'data', transform = None):
-    return Planetoid(root       = data_path,
-                    name        = 'CiteSeer',
-                    transform   = transform)
+def flickr(data_path : str = 'data', transform = None):
+    return Flickr(root       = data_path,
+                  transform   = transform)
 
 
-class citeSeer_pl(Base_pl_data):
+class flicker_pl(Base_pl_data):
         def __init__(self,
                 transform       = T.Compose([T.NormalizeFeatures()]),
                 data_path       = 'data') -> None:
-                dataset = citeSeer(data_path=data_path,
+                dataset = flickr(data_path=data_path,
                                 transform=transform)
                 super().__init__(dataset)
                 
@@ -27,22 +27,3 @@ class citeSeer_pl(Base_pl_data):
                 self.val_batch_size     = 1
                 self.train_batch_size   = 1
                 self.test_bathc_dataset = 1
-
-
-
-
-
-
-
-
-
-
-        
-        
-        
-
-
-
-
-
-

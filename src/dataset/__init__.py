@@ -4,4 +4,3 @@ from .Pubmed        import pubmed,      pubmed_pl
 from .ArXiv         import arxiv,       arxiv_pl
 from .Flicker       import flickr,      flicker_pl
 from .Products      import products,    products_pl
-from .Pubmed        import pubmed,      pubmed_pl

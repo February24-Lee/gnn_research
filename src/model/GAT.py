@@ -84,23 +84,23 @@ class GAT_pl(Base_pl):
         mask = self.hparams['train_mask']
         loss = criterion(y_hat[mask], batch.y[mask])
         #self.logger.experiment.log('train_acc', train_acc(y_hat[mask].argmax(-1), batch.y[mask]), on_epoch=True, logger=True)
-        self.log('train_acc', train_acc(y_hat[mask].argmax(-1), batch.y[mask]))
-        #self.logger.experiment.log({'train_acc': train_acc(y_hat[mask].argmax(-1), batch.y[mask])})
+        self.log('train_acc', train_acc(y_hat[mask].argmax(-1), batch.y[mask]), logger=True)
+        self.logger.experiment.log({'train_acc': train_acc(y_hat[mask].argmax(-1), batch.y[mask])})
         return loss
 
     def validation_step(self, batch : Batch, batch_dix : int) -> torch.Tensor:
         val_acc  = Accuracy().cuda()
         mask = self.hparams['val_mask']
         y_hat = self(batch.x, batch.edge_index)
-        self.log('val_acc', val_acc(y_hat[mask].argmax(-1), batch.y[mask]))
-        #self.logger.experiment.log({'val_acc': val_acc(y_hat[mask].argmax(-1), batch.y[mask])})
+        self.log('val_acc', val_acc(y_hat[mask].argmax(-1), batch.y[mask]), logger=True)
+        self.logger.experiment.log({'val_acc': val_acc(y_hat[mask].argmax(-1), batch.y[mask])})
 
     def test_step(self, batch : Batch, batch_dix : int) -> torch.Tensor:
         test_acc  = Accuracy().cuda()
         mask = self.hparams['test_mask']
         y_hat = self(batch.x, batch.edge_index)
-        self.log('test_acc', test_acc(y_hat[mask].argmax(-1), batch.y[mask]))
-        #self.logger.experiment.log({'test_acc': test_acc(y_hat[mask].argmax(-1), batch.y[mask])})
+        self.log('test_acc', test_acc(y_hat[mask].argmax(-1), batch.y[mask]), logger=True)
+        self.logger.experiment.log({'test_acc': test_acc(y_hat[mask].argmax(-1), batch.y[mask])})
     
         
 

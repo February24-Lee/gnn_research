@@ -33,32 +33,31 @@ DATA_LIST = {'citeseer' : citeSeer_pl,
             'flicker'   : flicker_pl,
             'products'  : products_pl}
 
+
+
 if __name__ == "__main__":
+    dataloader = DATA_LIST['arxiv'](data_path = 'data')
     
-    # --- dataloader
-    for dataset_name, dataset in DATA_LIST.items():
-        dataloader = dataset(data_path = 'data')
-        
-        # --- logger
-        #logger = TestTubeLogger('log', 'test1')
-        logger = WandbLogger(f'test_gat_{dataset_name}', save_dir='log', project='gnn_research', log_model='all')
+    # --- logger
+    #logger = TestTubeLogger('log', 'test1')
+    logger = WandbLogger(f'test_gat_arxiv', save_dir='log', project='gnn_research', log_model='all')
 
-        # --- Model
-        model = GAT_pl( input_dim   = dataloader.num_features,
-                        output_dim  = dataloader.num_classes,
-                        train_mask  = dataloader.train_mask,
-                        test_mask   = dataloader.test_mask,
-                        val_mask    = dataloader.val_mask,
-                        optimizer   = Adam,
-                        lr_sche     = ReduceLROnPlateau,
-                        num_layers= 4,
-                        hidden_dim = [64, 64, 64],
-                        num_heads = [8, 8, 8, 8])
+    # --- Model
+    model = GAT_pl( input_dim   = dataloader.num_features,
+                    output_dim  = dataloader.num_classes,
+                    train_mask  = dataloader.train_mask,
+                    test_mask   = dataloader.test_mask,
+                    val_mask    = dataloader.val_mask,
+                    optimizer   = Adam,
+                    lr_sche     = ReduceLROnPlateau,
+                    num_layers= 4,
+                    hidden_dim = [64, 64, 64],
+                    num_heads = [8, 8, 8, 8])
 
-        # --- callback
-        checkpoint_callback = ModelCheckpoint(monitor='val_acc', save_last=5)
-        trainer = Trainer(gpus=1, max_epochs=100, callbacks=[checkpoint_callback], logger=logger)
-        
-        trainer.fit(model, dataloader)
-        # --- test 
-        trainer.test()
+    # --- callback
+    checkpoint_callback = ModelCheckpoint(monitor='val_acc', save_last=5)
+    trainer = Trainer(gpus=1, max_epochs=100, callbacks=[checkpoint_callback], logger=logger)
+    
+    trainer.fit(model, dataloader)
+    # --- test 
+    trainer.test()

@@ -11,6 +11,7 @@ class products_pl(Base_pl_data):
         def __init__(self,
                 data_path       = 'data') -> None:
                 dataset = products(data_path=data_path)
+                dataset[0].y = dataset[0].y.squeeze()
                 super().__init__(dataset)
                 
                 self.test_dataset       = self.dataset 

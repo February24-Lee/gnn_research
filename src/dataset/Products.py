@@ -33,4 +33,4 @@ class products_pl(Base_pl_data):
 
                 self.val_batch_size     = 1
                 self.train_batch_size   = 1
-                self.test_bathc_dataset = 1
+                self.test_batch_size    = 1

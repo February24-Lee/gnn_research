@@ -11,7 +11,7 @@ from torchmetrics import Accuracy
 
 import pytorch_lightning as pl
 
-from typing     import Callable, List, Tuple
+from typing     import Callable, List, Tuple, Union
 
 from .base      import Base_pl
 from ..typing   import lr_schedule
@@ -20,13 +20,20 @@ from ..typing   import lr_schedule
 
 class GAT(nn.Module):
     def __init__(self,
-                input_dim   : int           = None,
-                num_layers  : int           = 2,
-                hidden_dim  : List[int]     = [32],
-                num_heads   : List[int]     = [1, 1],
-                output_dim  : int           = None,
-                drop_out    : float         = 0.6):
+                input_dim   : int                       = None,
+                num_layers  : int                       = 2,
+                hidden_dim  : Union[List[int], int]     = [32],
+                num_heads   : Union[List[int], int]     = [1, 1],
+                output_dim  : int                       = None,
+                drop_out    : float                     = 0.6):
         super().__init__()
+        # --- setting hidden_dim
+        if isinstance(hidden_dim, int):
+            hidden_dim = [hidden_dim] * (num_layers-1)
+        
+        if isinstance(num_heads, int):
+            num_heads = [num_heads] * num_layers
+
         self.input_dim          = input_dim
         self.num_layers         = num_layers
         self.hidden_dim         = hidden_dim
@@ -82,25 +89,24 @@ class GAT_pl(Base_pl):
         y_hat = self(batch.x, batch.edge_index)
         criterion = self.hparams['criterion']
         mask = self.hparams['train_mask']
-        loss = criterion(y_hat[mask], batch.y[mask])
+        loss = criterion(y_hat[mask], batch.y[mask].squeeze())
         #self.logger.experiment.log('train_acc', train_acc(y_hat[mask].argmax(-1), batch.y[mask]), on_epoch=True, logger=True)
-        self.log('train_acc', train_acc(y_hat[mask].argmax(-1), batch.y[mask]), logger=True)
-        self.logger.experiment.log({'train_acc': train_acc(y_hat[mask].argmax(-1), batch.y[mask])})
+        self.log('train_acc', train_acc(y_hat[mask].argmax(-1), batch.y[mask].squeeze()), logger=True)
+        self.logger.experiment.log({'train_acc': train_acc(y_hat[mask].argmax(-1), batch.y[mask].squeeze())})
         return loss
 
     def validation_step(self, batch : Batch, batch_dix : int) -> torch.Tensor:
         val_acc  = Accuracy().cuda()
         mask = self.hparams['val_mask']
         y_hat = self(batch.x, batch.edge_index)
-        self.log('val_acc', val_acc(y_hat[mask].argmax(-1), batch.y[mask]), logger=True)
-        self.logger.experiment.log({'val_acc': val_acc(y_hat[mask].argmax(-1), batch.y[mask])})
+        self.log('val_acc', val_acc(y_hat[mask].argmax(-1), batch.y[mask].squeeze()), logger=True)
+        self.logger.experiment.log({'val_acc': val_acc(y_hat[mask].argmax(-1), batch.y[mask].squeeze())})
 
     def test_step(self, batch : Batch, batch_dix : int) -> torch.Tensor:
         test_acc  = Accuracy().cuda()
         mask = self.hparams['test_mask']
         y_hat = self(batch.x, batch.edge_index)
-        self.log('test_acc', test_acc(y_hat[mask].argmax(-1), batch.y[mask]), logger=True)
-        self.logger.experiment.log({'test_acc': test_acc(y_hat[mask].argmax(-1), batch.y[mask])})
-    
+        self.log('test_acc', test_acc(y_hat[mask].argmax(-1), batch.y[mask].squeeze()), logger=True)
+        self.logger.experiment.log({'test_acc': test_acc(y_hat[mask].argmax(-1), batch.y[mask].squeeze())})    
         
 

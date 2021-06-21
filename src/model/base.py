@@ -5,7 +5,7 @@ from torch.optim            import Optimizer
 from torch_geometric.data   import Batch
 
 from ..typing           import lr_schedule
-from typing             import List, Tuple
+from typing             import Tuple
 
 
 class Base_pl(LightningModule):

@@ -52,7 +52,7 @@ def split_train_test_val(label_dataset : torch.Tensor,
         train_idx[idx] = 1
         test_idx[idx] = 0
         
-    _val_idx = torch.nonzero(train_idx, as_tuple=True)[0][:val_num]
+    _val_idx = torch.nonzero(test_idx, as_tuple=True)[0][:val_num]
     test_idx[_val_idx] = 0
     val_idx[_val_idx] = 1
     return train_idx.bool(), test_idx.bool(), val_idx.bool()

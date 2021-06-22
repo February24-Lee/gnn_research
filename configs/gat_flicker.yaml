@@ -8,3 +8,8 @@ model_params:
   
 dataset_params:
   data_path: 'data'
+
+optim_name: 'adam'
+optim_params:
+  lr: 0.001
+   

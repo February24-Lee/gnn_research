@@ -30,10 +30,12 @@ class Base_pl(LightningModule):
 
     def configure_optimizers(self) : #-> Tuple[List[Optimizer], List[lr_schedule]]:
         optim = self.hparams['optimizer']
-        lr_sche = self.hparams['lr_sche']
         optimizer = optim(self.model.parameters())
-        scheduler = lr_sche(optimizer)
-        return {'optimizer' : optimizer, 'lr_scheduler' : {'scheduler' : scheduler, 'monitor' : 'val_acc'}}
+        if self.hparams['lr_sche'] != None:
+            lr_sche = self.hparams['lr_sche']
+            scheduler = lr_sche(optimizer)
+            return {'optimizer' : optimizer, 'lr_scheduler' : {'scheduler' : scheduler, 'monitor' : 'val_acc'}}
+        return [optimizer]
     
 
     

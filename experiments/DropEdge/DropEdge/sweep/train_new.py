@@ -1,8 +1,9 @@
 from __future__ import division
 from __future__ import print_function
-from os import name
 import sys
 sys.path.append('..')
+sys.path.append('../src')
+from os import name
 
 import time
 import argparse

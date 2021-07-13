@@ -18,7 +18,7 @@ parameters:
     distribution: log_uniform
     min: -10
     max: -5
-  drop_out:
+  dropout:
     distribution: categorical
     values:
       - 0
@@ -37,9 +37,8 @@ command:
   - ${interpreter}
   - ${program}
   - "--debug"
-  - ""
   - "--datapath"
-  - "data//"
+  - "../data//"
   - "--seed"
   - 42
   - "--dataset"
@@ -59,9 +58,7 @@ command:
   - "--task_type"
   - "semi"
   - "--withloop"
-  - ""
   - "--withbn"
-  - ""
   - "--wandb_name"
-  - "--wandb_name citeseer_gcn_nodrop"
+  - citeseer_gcn_nodrop
   - ${args}

@@ -10,3 +10,4 @@ data/
 log/
 wandb/
 .vscode
+tmpmodel/

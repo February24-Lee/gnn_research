@@ -1,0 +1,14 @@
+model_name : 'gat'
+dataset_name: 'citeseer'
+model_params:
+  num_layers: 8
+  hidden_dim: 512
+  num_heads: 8
+  drop_out: 0.4
+  
+dataset_params:
+  data_path: 'data'
+
+optim_name: 'adam'
+optim_params:
+  lr: 0.0006998

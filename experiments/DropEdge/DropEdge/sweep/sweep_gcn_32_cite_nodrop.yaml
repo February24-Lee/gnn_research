@@ -1,0 +1,69 @@
+program: train_new.py
+method: bayes
+project: gnn_research
+metric:
+  name: acc_test
+  goal: maximize
+early_terminate:
+  type: hyperband
+  max_iter: 81
+  s: 3
+parameters:
+  lr:
+    distribution: log_uniform
+    min: -10
+    max: -3
+  hidden:
+    distribution: categorical
+    values:
+      - 64
+      - 128
+      - 256
+  weight_decay:
+    distribution: log_uniform
+    min: -10
+    max: -5
+  dropout:
+    distribution: categorical
+    values:
+      - 0
+      - 0.3
+      - 0.5
+      - 0.8
+  normalization:
+    distribution: categorical
+    values:
+      - AugNormAdj
+      - FirstOrderGCN
+      - BingGeNormAdj
+      - AugRWalk
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - "--debug"
+  - "--datapath"
+  - "../data//"
+  - "--seed"
+  - 42
+  - "--dataset"
+  - "citeseer"
+  - "--type"
+  - "mutigcn"
+  - "--nhiddenlayer"
+  - 32
+  - "--nbaseblocklayer"
+  - 0
+  - "--epoch"
+  - 400
+  - "--early_stopping"
+  - 400
+  - "--sampling_percent"
+  - 1
+  - "--task_type"
+  - "semi"
+  - "--withloop"
+  - "--withbn"
+  - "--wandb_name"
+  - gcn_32_cite_nodrop
+  - ${args}

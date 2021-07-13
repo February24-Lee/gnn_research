@@ -1,8 +1,13 @@
 program: train_new.py
 method: bayes
+project: gnn_research
 metric:
   name: acc_test
   goal: maximize
+early_terminate:
+  type: hyperband
+  max_iter: 81
+  s: 3
 parameters:
   lr:
     distribution: log_uniform
@@ -46,7 +51,7 @@ command:
   - "--type"
   - "mutigcn"
   - "--nhiddenlayer"
-  - 2
+  - 16
   - "--nbaseblocklayer"
   - 0
   - "--epoch"
@@ -60,5 +65,5 @@ command:
   - "--withloop"
   - "--withbn"
   - "--wandb_name"
-  - citeseer_gcn_nodrop
+  - gcn_16_cite_nodrop
   - ${args}

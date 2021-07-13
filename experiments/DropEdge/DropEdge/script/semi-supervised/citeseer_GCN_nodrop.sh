@@ -15,7 +15,8 @@ python ./src/train_new.py \
     --early_stopping 400 \
     --sampling_percent 1 \
     --dropout 0.3 \
-    --normalization BingGeNormAdj --task_type semi \
+    --normalization BingGeNormAd \
+    --task_type semi \
     --withloop \
     --withbn \
     --wandb_name citeseer_gcn_nodrop \

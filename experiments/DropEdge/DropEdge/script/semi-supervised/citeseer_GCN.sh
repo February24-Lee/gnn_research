@@ -15,6 +15,7 @@ python ./src/train_new.py \
     --early_stopping 400 \
     --sampling_percent 0.2 \
     --dropout 0.3 \
-    --normalization AugNormAdj --task_type semi \
+    --normalization AugNormAdj \
+    --task_type semi \
      \
     
